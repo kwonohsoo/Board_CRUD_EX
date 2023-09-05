@@ -14,7 +14,6 @@ public class ResponseDto {
 
     private String content;
 
-
     @Builder
     public ResponseDto(Long id, String title, String content) {
         this.id = id;
