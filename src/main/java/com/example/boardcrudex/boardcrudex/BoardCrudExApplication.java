@@ -11,7 +11,7 @@ public class BoardCrudExApplication {
 
 	@RequestMapping("/")
 	String hello(){
-		return "안녕!";
+		return "안녕!!";
 	}
 
 	public static void main(String[] args) {
