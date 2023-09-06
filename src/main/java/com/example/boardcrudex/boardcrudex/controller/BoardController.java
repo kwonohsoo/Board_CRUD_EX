@@ -17,7 +17,7 @@ import java.util.List;
 @RequestMapping("/board")
 @RequiredArgsConstructor
 @Slf4j
-@Api("게시판 컨트롤러")
+@Api(tags = "게시판")
 public class BoardController {
 
     private final BoardService boardService;
@@ -49,8 +49,8 @@ public class BoardController {
     @PutMapping("/update/{id}")
     @ApiOperation(value = "수정")
     public ResponseEntity<ResponseDto> update(@PathVariable("id") Long id, @RequestBody RequestDto requestDto) {
-        ResponseDto responseDtoList = boardService.update(id, requestDto);
-        return new ResponseEntity<>(responseDtoList, HttpStatus.OK);
+        ResponseDto responseDto = boardService.update(id, requestDto);
+        return new ResponseEntity<>(responseDto, HttpStatus.OK);
     }
 
     // D
