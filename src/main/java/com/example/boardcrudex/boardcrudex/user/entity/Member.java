@@ -1,4 +1,4 @@
-package com.example.boardcrudex.boardcrudex.entity;
+package com.example.boardcrudex.boardcrudex.user.entity;
 
 import lombok.*;
 
@@ -7,23 +7,21 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
-@Entity
 @Builder
 @Getter
+@Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
-public class Board {
+public class Member {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String title;
+    private String email;
 
-    private String content;
+    @Setter
+    private String password;
 
-    public void update(String title, String content) {
-        this.title = title;
-        this.content = content;
-    }
+    private String name;
 }

@@ -1,6 +1,6 @@
-package com.example.boardcrudex.boardcrudex.dto;
+package com.example.boardcrudex.boardcrudex.board.dto;
 
-import com.example.boardcrudex.boardcrudex.entity.Board;
+import com.example.boardcrudex.boardcrudex.board.entity.Board;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 @ApiModel(value = "게시판 요청 정보")
-public class RequestDto {
+public class BoardReq {
 
     @ApiModelProperty(position = 1, value = "제목", example = "제목")
     private String title;

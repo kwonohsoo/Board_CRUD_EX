@@ -1,6 +1,6 @@
-package com.example.boardcrudex.boardcrudex.repository;
+package com.example.boardcrudex.boardcrudex.board.repository;
 
-import com.example.boardcrudex.boardcrudex.entity.Board;
+import com.example.boardcrudex.boardcrudex.board.entity.Board;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

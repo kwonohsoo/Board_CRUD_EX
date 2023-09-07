@@ -1,9 +1,9 @@
-package com.example.boardcrudex.boardcrudex.service;
+package com.example.boardcrudex.boardcrudex.board.service;
 
-import com.example.boardcrudex.boardcrudex.dto.RequestDto;
-import com.example.boardcrudex.boardcrudex.dto.ResponseDto;
-import com.example.boardcrudex.boardcrudex.entity.Board;
-import com.example.boardcrudex.boardcrudex.repository.BoardRepository;
+import com.example.boardcrudex.boardcrudex.board.dto.BoardReq;
+import com.example.boardcrudex.boardcrudex.board.dto.BoardRes;
+import com.example.boardcrudex.boardcrudex.board.repository.BoardRepository;
+import com.example.boardcrudex.boardcrudex.board.entity.Board;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -23,12 +23,12 @@ public class BoardService {
 
     // C
     @Transactional
-    public ResponseDto create(RequestDto requestDTO) {
-        Board board = requestDTO.toEntity();
+    public BoardRes create(BoardReq boardReq) {
+        Board board = boardReq.toEntity();
 
         boardRepository.save(board);
 
-        return ResponseDto.builder()
+        return BoardRes.builder()
                 .id(board.getId())
                 .title(board.getTitle())
                 .content(board.getContent())
@@ -36,10 +36,10 @@ public class BoardService {
     }
 
     // R
-    public List<ResponseDto> getAll() {
+    public List<BoardRes> getAll() {
         List<Board> boardList = boardRepository.findAll();
         return boardList.stream()
-                .map(board -> ResponseDto.builder()
+                .map(board -> BoardRes.builder()
                         .id(board.getId())
                         .title(board.getTitle())
                         .content(board.getContent())
@@ -47,12 +47,12 @@ public class BoardService {
                 .collect(Collectors.toList());
     }
 
-    public ResponseDto getId(Long id) {
+    public BoardRes getId(Long id) {
         Optional<Board> boardOptional = boardRepository.findById(id);
         if (boardOptional.isPresent()) {
             Board board = boardOptional.get();
 
-            return ResponseDto.builder()
+            return BoardRes.builder()
                     .id(board.getId())
                     .title(board.getTitle())
                     .content(board.getContent())
@@ -63,15 +63,16 @@ public class BoardService {
     }
 
     // U
-    public ResponseDto update(Long id, RequestDto requestDto) {
+    @Transactional
+    public BoardRes update(Long id, BoardReq boardReq) {
         Optional<Board> optionalBoard = boardRepository.findById(id);
         if (optionalBoard.isPresent()) {
             Board board = optionalBoard.get();
-            board.update(requestDto.getTitle(), requestDto.getContent());
+            board.update(boardReq.getTitle(), boardReq.getContent());
 
             boardRepository.save(board);
 
-            return ResponseDto.builder()
+            return BoardRes.builder()
                     .id(board.getId())
                     .title(board.getTitle())
                     .content(board.getContent())
@@ -82,6 +83,7 @@ public class BoardService {
     }
 
     // D
+    @Transactional
     public void delete(Long id) {
         Optional<Board> optionalBoard = boardRepository.findById(id);
         if (optionalBoard.isPresent()) {

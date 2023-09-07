@@ -14,6 +14,18 @@ import springfox.documentation.spring.web.plugins.Docket;
 public class SwaggerConfig {
 
     @Bean
+    public Docket member() {
+        return new Docket(DocumentationType.OAS_30)
+                .useDefaultResponseMessages(false)
+                .groupName("회원 관리")
+                .apiInfo(this.apiInfo())
+                .select()
+                .apis(RequestHandlerSelectors.basePackage("com.example.boardcrudex"))
+                .paths(PathSelectors.any())
+                .build();
+    }
+
+    @Bean
     public Docket board() {
         return new Docket(DocumentationType.OAS_30)
                 .useDefaultResponseMessages(false)
