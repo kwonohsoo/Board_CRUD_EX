@@ -1,6 +1,7 @@
 package com.example.boardcrudex.global.user.entity;
 
 import com.example.boardcrudex.domain.board.entity.Board;
+import com.example.boardcrudex.domain.reply.entity.Reply;
 import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
 
@@ -33,6 +34,9 @@ public class Member {
 
     @OneToMany(mappedBy = "member")
     private List<Board> boardList = new ArrayList<>();
+
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
+    private List<Reply> reply = new ArrayList<>();
 
     public void update(String password) {
         this.password = password;
