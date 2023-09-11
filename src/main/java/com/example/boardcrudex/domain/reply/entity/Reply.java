@@ -17,12 +17,18 @@ public class Reply {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Setter
     @ManyToOne(fetch = FetchType.LAZY)
     private Member member;
 
+    @Setter
     @ManyToOne(fetch = FetchType.LAZY)
     private Board board;
 
     private String comment;
+
+    public void update(String comment) {
+        this.comment = comment;
+    }
 
 }

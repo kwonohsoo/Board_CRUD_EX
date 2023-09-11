@@ -4,9 +4,13 @@ import com.example.boardcrudex.domain.board.dto.BoardReq;
 import com.example.boardcrudex.domain.board.dto.BoardRes;
 import com.example.boardcrudex.domain.board.entity.Board;
 import com.example.boardcrudex.domain.board.repository.BoardRepository;
+import com.example.boardcrudex.domain.reply.dto.ReplyRes;
+import com.example.boardcrudex.domain.reply.service.ReplyService;
 import com.example.boardcrudex.global.user.entity.Member;
 import com.example.boardcrudex.global.user.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,10 +25,10 @@ public class BoardService {
 
     private final BoardRepository boardRepository;
     private final MemberRepository memberRepository;
+    private final ReplyService replyService;
 
     @Transactional
     public BoardRes create(BoardReq boardReq) {
-
         Member member = memberRepository.findById(boardReq.getWriterId())
                 .orElseThrow(() -> new IllegalArgumentException("회원을 찾을 수 없습니다."));
 
@@ -55,10 +59,24 @@ public class BoardService {
                 .collect(Collectors.toList());
     }
 
+    public Page<BoardRes> getAllPage(Pageable pageable) {
+        Page<Board> boardPage = boardRepository.findAll(pageable);
+        return boardPage.map(board -> BoardRes.builder()
+                .id(board.getId())
+                .writerId(board.getMember().getId())
+                .writerName(board.getMember().getName())
+                .title(board.getTitle())
+                .content(board.getContent())
+                .build());
+    }
+
     public BoardRes getId(Long id) {
         Optional<Board> boardOptional = boardRepository.findById(id);
         if (boardOptional.isPresent()) {
             Board board = boardOptional.get();
+
+            // 댓글 목록
+            List<ReplyRes> replyList = replyService.getAllRepliesByBoardId(id);
 
             return BoardRes.builder()
                     .id(board.getId())
@@ -66,6 +84,7 @@ public class BoardService {
                     .writerName(board.getMember().getName())
                     .title(board.getTitle())
                     .content(board.getContent())
+                    .replies(replyList)
                     .build();
         } else {
             throw new NoSuchElementException("게시물을 찾을 수 없습니다.");

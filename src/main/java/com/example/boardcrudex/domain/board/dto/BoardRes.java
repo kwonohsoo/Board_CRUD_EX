@@ -1,10 +1,13 @@
 package com.example.boardcrudex.domain.board.dto;
 
+import com.example.boardcrudex.domain.reply.dto.ReplyRes;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
+
+import java.util.List;
 
 @Getter
 @Setter
@@ -26,12 +29,16 @@ public class BoardRes {
     @ApiModelProperty(position = 5, value = "내용", example = "내용")
     private String content;
 
+    @ApiModelProperty(position = 6, value = "댓글 목록", example = "댓글 목록 [ ]")
+    private List<ReplyRes> replies;
+
     @Builder
-    public BoardRes(Long id, Long writerId, String writerName, String title, String content) {
+    public BoardRes(Long id, Long writerId, String writerName, String title, String content, List<ReplyRes> replies) {
         this.id = id;
         this.writerId = writerId;
         this.writerName = writerName;
         this.title = title;
         this.content = content;
+        this.replies = replies;
     }
 }
