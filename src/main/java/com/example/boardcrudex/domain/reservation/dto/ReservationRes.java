@@ -20,6 +20,8 @@ public class ReservationRes {
 
     private Date startTime;
 
+
+
     private Date endTime;
 
     @Builder
