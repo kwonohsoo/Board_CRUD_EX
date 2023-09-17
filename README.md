@@ -5,7 +5,7 @@
 Rest API
 Swagger
 
-...
+
 ### PLAN
 - SpringSecurity, JWT
 - User : Account, Login
